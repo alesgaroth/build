@@ -95,7 +95,7 @@
         <configuration>
           <scanIntervalSeconds>10</scanIntervalSeconds>
           <stopKey>foo</stopKey>
-          <stopPort>8080</stopPort>
+          <stopPort>28080</stopPort>
           <stopWait>2</stopWait>
           <daemon>true</daemon>
 
