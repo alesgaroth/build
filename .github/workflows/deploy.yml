@@ -37,6 +37,12 @@ jobs:
         working-directory: ${{ env.applicationfolder }}
         run: $GITHUB_WORKSPACE/.github/scripts/build.sh
 
+      - name: save secret to file
+        run: | 
+             echo $SSH_PRIVATE_KEY > private-key.pem
+        env:
+            SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
       - name: scp
         working-directory: ${{ env.applicationfolder }}/target
-        run: scp -i ${{ secrets.SSH_PRIVATE_KEY }} *.war ubuntu@${{ secrets.EC2_INSTANCE }}:/var/lib/jetty9/webapps
+        run: scp -i private_key.pem *.war ubuntu@${{ secrets.EC2_INSTANCE }}:/var/lib/jetty9/webapps
