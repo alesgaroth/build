@@ -1,0 +1,42 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch: {}
+
+env:
+  applicationfolder: build
+  AWS_REGION: ##region##
+  S3BUCKET: ##s3-bucket## 
+
+
+jobs:
+  build:
+    name: Build and Package
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v2
+        name: Checkout Repository
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
+
+      - name: chmod
+        run: chmod -R +x ./.github
+
+      - name: Build and Package Maven
+        id: package
+        working-directory: ${{ env.applicationfolder }}
+        run: $GITHUB_WORKSPACE/.github/scripts/build.sh
+
+      - name: scp
+        working-directory: ${{ env.applicationfolder }}/target
+        run: scp -i ${{ secrets.SSH_PRIVATE_KEY }} *.war ubuntu@${{ secrets.EC2_INSTANCE }}:/var/lib/jetty9/webapps
