@@ -8,7 +8,7 @@ on:
   workflow_dispatch: {}
 
 env:
-  applicationfolder: /home/runner/work/build
+  applicationfolder: /home/runner/work/build/build
 
 
 jobs:
