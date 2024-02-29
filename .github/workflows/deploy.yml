@@ -38,14 +38,14 @@ jobs:
       - name: save secret to file
         working-directory: ${{ env.applicationfolder }}/target
         run: | 
-             printf "$SSH_PRIVATE_KEY" > private-key.pem
+             printf "%s" "$SSH_PRIVATE_KEY" > private-key.pem
         env:
             SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: save known host to file
         working-directory: ${{ env.applicationfolder }}/target
         run: | 
-             printf "$KNOWN_HOSTS" > known_hosts
+             printf "%s" "$KNOWN_HOSTS" > known_hosts
         env:
             KNOWN_HOSTS: ${{ secrets.KNOWN_HOSTS }}
 
