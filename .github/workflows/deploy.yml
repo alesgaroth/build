@@ -8,7 +8,7 @@ on:
   workflow_dispatch: {}
 
 env:
-  applicationfolder: build
+  applicationfolder: /home/runner/work/build/build
   AWS_REGION: ##region##
   S3BUCKET: ##s3-bucket## 
 
