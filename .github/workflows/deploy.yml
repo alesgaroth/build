@@ -8,9 +8,7 @@ on:
   workflow_dispatch: {}
 
 env:
-  applicationfolder: /home/runner/work/build/build
-  AWS_REGION: ##region##
-  S3BUCKET: ##s3-bucket## 
+  applicationfolder: /home/runner/work/build
 
 
 jobs:
@@ -40,14 +38,14 @@ jobs:
       - name: save secret to file
         working-directory: ${{ env.applicationfolder }}/target
         run: | 
-             echo $SSH_PRIVATE_KEY > private-key.pem
+             printf "$SSH_PRIVATE_KEY" > private-key.pem
         env:
             SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: save known host to file
         working-directory: ${{ env.applicationfolder }}/target
         run: | 
-             echo "$KNOWN_HOSTS" > known_hosts
+             printf "$KNOWN_HOSTS" > known_hosts
         env:
             KNOWN_HOSTS: ${{ secrets.KNOWN_HOSTS }}
 
