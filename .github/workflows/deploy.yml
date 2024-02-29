@@ -47,9 +47,9 @@ jobs:
       - name: save known host to file
         working-directory: ${{ env.applicationfolder }}/target
         run: | 
-             echo "$KNOWN_HOST" > known_hosts
+             echo "$KNOWN_HOSTS" > known_hosts
         env:
-            KNOWN_HOST: ${{ secrets.KNOWN_HOST }}
+            KNOWN_HOSTS: ${{ secrets.KNOWN_HOSTS }}
 
       - name: make private key private
         working-directory: ${{ env.applicationfolder }}/target
