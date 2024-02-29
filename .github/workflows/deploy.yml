@@ -58,4 +58,4 @@ jobs:
 
       - name: scp
         working-directory: ${{ env.applicationfolder }}/target
-        run: scp -i private-key.pem -o UserKnownHostsFile=known_hosts -o HashKnownHosts *.war ubuntu@${{ secrets.EC2_INSTANCE }}:/var/lib/jetty9/webapps
+        run: scp -i private-key.pem -o UserKnownHostsFile=known_hosts -o HashKnownHosts=yes *.war ubuntu@${{ secrets.EC2_INSTANCE }}:/var/lib/jetty9/webapps
