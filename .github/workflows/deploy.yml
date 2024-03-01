@@ -19,13 +19,15 @@ jobs:
       id-token: write
       contents: read
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         name: Checkout Repository
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v2
         with:
           java-version: 17
+          distribution: 'corretto'
+          java-package: jdk
 
       - name: chmod
         run: chmod -R +x ./.github
