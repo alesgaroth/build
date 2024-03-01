@@ -1,0 +1,45 @@
+
+  sudo apt update
+  sudo apt list --upgradeable
+  sudo apt upgrade -all
+  sudo apt upgrade
+  sudo /sbin/shutdown -r now
+|||| ssh back in after a minute |||
+  wget -O - https://apt.corretto.aws/corretto.key | sudo gpg --dearmor -o /usr/share/keyrings/corretto-keyring.gpg && echo "deb [signed-by=/usr/share/keyrings/corretto-keyring.gpg] https://apt.corretto.aws stable main" | sudo tee /etc/apt/sources.list.d/corretto.list
+  sudo apt-get update; sudo apt-get install -y java-17-amazon-corretto-jdk
+  java --version
+  sudo apt-get install jetty9
+  sudo systemctl enable jetty9 && sudo systemctl start jetty9
+  sudo systemctl status jetty9
+  sudo apt install net-tools
+  netstat -tunlp | grep 8080
+  sudo apt-get install apache2
+  sudo systemctl enable apache2 && sudo systemctl start apache2
+  sudo systemctl status apache2
+  cd /etc/apache2/sites-available/
+  sudo cat >  jetty.conf << EOF
+  <VirtualHost *:80>
+  ServerName yourdomain.com
+  DocumentRoot /var/www/html/
+
+  <Directory /var/www/html>
+  AllowOverride All
+  </Directory>
+
+  ProxyRequests off
+  ProxyPass / http://127.0.0.1:8080/
+  ProxyPassReverse / http://127.0.0.1:8080/
+
+  ErrorLog ${APACHE_LOG_DIR}/error.log
+  CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+  </VirtualHost>
+  EOF
+  sudo a2dissite 000-default.conf
+  sudo a2enmod proxy
+  sudo a2enmod proxy_http
+  sudo a2enmod rewrite
+  sudo a2ensite jetty.conf
+ apachectl -t
+ sudo systemctl reload apache2
+ sudo chmod 777 /usr/share/jetty9/webapps
